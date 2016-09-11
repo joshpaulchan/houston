@@ -12,12 +12,12 @@ import reducers from './reducers';
 
 // ROUTER //////////////////////////////////////////////////////////////////////
 
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRedirect, browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 
 // PAGES ///////////////////////////////////////////////////////////////////////
 
-import { Home } from './pages';
+import { Home, Auth, Login } from './pages';
 
 ////////////////////////////////////////////////////////////////////////////////
 // CORE ////////////////////////////////////////////////////////////////////////
@@ -34,25 +34,16 @@ const store = createStore(
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store)
 
-class App extends React.Component{
-  contextTypes: {
-    router: React.propTypes.func,
-    state: React.propTypes.object
-  }
-  constructor() {
-    super()
-    
-    this.state = store.getState();
-  }
+const App = React.createClass({
   render() {
     return (
       <div>
         <h1>Welcome!</h1>
-        {this.props.children}
+        { this.props.children }
       </div>
     );
   }
-};
+});
 
 ////////////////////////////////////////////////////////////////////////////////
 // CORE ////////////////////////////////////////////////////////////////////////
@@ -62,7 +53,11 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App}>
-        <IndexRoute component={Home} />
+        <IndexRedirect to="auth" />
+        <Route path="auth" component={Auth}>
+          <IndexRedirect to="login" />
+          <Route path="login" component={Login} />
+        </Route>
       </Route>
     </Router>
   </Provider>,
