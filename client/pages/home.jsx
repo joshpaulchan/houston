@@ -33,6 +33,7 @@ const Home = React.createClass({
     return (
       <div>
         { /* <h1>{this.state.title || ''}</h1> */}
+        <h1>ay lmao</h1>
         <h2>{this.state.count || 0}</h2>
         <button onClick={this.up}>Click to increment</button>
         <button onClick={this.down}>Click to decrement</button>
